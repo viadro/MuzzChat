@@ -1,4 +1,4 @@
-package com.seweryn.chat.domain
+package com.seweryn.chat.domain.model
 
 internal data class Message(
     val text: String,
