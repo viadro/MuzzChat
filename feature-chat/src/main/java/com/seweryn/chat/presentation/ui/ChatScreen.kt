@@ -34,6 +34,7 @@ import com.seweryn.chat.presentation.model.ChatItem
 import com.seweryn.chat.presentation.model.ChatMessagesState
 import com.seweryn.chat.presentation.model.ChatState
 import com.seweryn.chat.presentation.model.HeaderState
+import com.seweryn.chat.presentation.model.InputState
 
 @Composable
 fun ChatScreen() {
@@ -44,7 +45,8 @@ fun ChatScreen() {
 private fun ChatScreenContent(state: ChatState) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { ChatHeader(state.headerState) }
+        topBar = { ChatHeader(state.headerState) },
+        bottomBar = { ChatInput(state.inputState) { } }
     ) { innerPadding ->
         when (state.messagesState) {
             is ChatMessagesState.Ready -> ChatMessagesContent(
@@ -143,6 +145,7 @@ internal fun ChatScreenPreview() {
                 name = "Sarah",
                 image = "avatar_sarah"
             ),
+            inputState = InputState(isEnabled = true),
             messagesState = ChatMessagesState.Ready(
                 items = listOf(
                     ChatItem.Message(

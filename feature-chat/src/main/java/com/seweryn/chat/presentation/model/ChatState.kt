@@ -3,6 +3,7 @@ package com.seweryn.chat.presentation.model
 internal data class ChatState(
     val headerState: HeaderState,
     val messagesState: ChatMessagesState,
+    val inputState: InputState = InputState(),
 )
 
 internal sealed interface ChatMessagesState {
@@ -13,7 +14,12 @@ internal sealed interface ChatMessagesState {
     ) : ChatMessagesState
 }
 
-data class HeaderState(
+internal data class HeaderState(
     val name: String,
     val image: String,
+)
+
+internal data class InputState(
+    val text: String = "",
+    val isEnabled: Boolean = false,
 )
