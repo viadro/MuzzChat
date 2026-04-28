@@ -2,6 +2,7 @@ package com.seweryn.chat.presentation.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -23,28 +24,17 @@ fun ChatScreen() {
 @Composable
 private fun ChatScreenContent(state: ChatState) {
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-        Column(
-            Modifier
+        LazyColumn(
+            modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
+                .padding(innerPadding),
+            contentPadding = PaddingValues(horizontal = 8.dp),
         ) {
-            ChatContent(state.items)
-        }
-    }
-}
-
-@Composable
-private fun ColumnScope.ChatContent(items: List<ChatItem>) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-            .weight(1f)
-            .padding(horizontal = 8.dp)
-    ) {
-        items(items) { item ->
-            when(item) {
-                is ChatItem.Message -> MessageBubble(item)
-                is ChatItem.DateTime -> DateTimeItem(item.value)
+            items(state.items) { item ->
+                when(item) {
+                    is ChatItem.Message -> MessageBubble(item)
+                    is ChatItem.DateTime -> DateTimeItem(item.value)
+                }
             }
         }
     }
