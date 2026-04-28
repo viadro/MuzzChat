@@ -24,4 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "MuzzChat"
 include(":app")
- 
+include(":feature-chat")
