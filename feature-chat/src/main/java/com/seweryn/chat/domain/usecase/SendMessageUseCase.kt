@@ -19,7 +19,7 @@ internal class SendMessageUseCase(
     @OptIn(FlowPreview::class)
     suspend fun init() {
         trigger
-            .debounce(WAIT_TIME_UNTIL_AUTO_REPLY)
+            .debounce(AUTO_REPLY_DELAY)
             .map {
                 messagesRepository.sendMessage(
                     NewMessage(
@@ -43,6 +43,6 @@ internal class SendMessageUseCase(
     }
 
     private companion object {
-        const val WAIT_TIME_UNTIL_AUTO_REPLY = 2_000L
+        const val AUTO_REPLY_DELAY = 5_000L
     }
 }
