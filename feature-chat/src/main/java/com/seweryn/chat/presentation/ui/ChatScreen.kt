@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.seweryn.chat.presentation.ChatViewModel
+import com.seweryn.chat.presentation.model.ChatIntent
 import com.seweryn.chat.presentation.model.ChatItem
 import com.seweryn.chat.presentation.model.ChatMessagesState
 import com.seweryn.chat.presentation.model.ChatState
@@ -47,17 +48,23 @@ fun ChatScreen() {
     val viewModel: ChatViewModel = koinViewModel()
     val state: ChatState by viewModel.state.collectAsStateWithLifecycle()
 
-    ChatScreenContent(state)
+    ChatScreenContent(
+        state = state,
+        processIntent = viewModel::processIntent,
+    )
 }
 
 @Composable
-private fun ChatScreenContent(state: ChatState) {
+private fun ChatScreenContent(
+    state: ChatState,
+    processIntent: (ChatIntent) -> Unit,
+) {
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
             .imePadding(),
         topBar = { ChatHeader(state.headerState) },
-        bottomBar = { ChatInput(state.inputState) { } }
+        bottomBar = { ChatInput(state.inputState, processIntent) }
     ) { innerPadding ->
         when (state.messagesState) {
             is ChatMessagesState.Ready -> ChatMessagesContent(
@@ -115,7 +122,7 @@ private fun ChatMessagesContent(
         contentPadding = PaddingValues(8.dp),
         reverseLayout = true,
     ) {
-        items(items) { item ->
+        items(items, key = { it.key }) { item ->
             when (item) {
                 is ChatItem.Message -> MessageBubble(item)
                 is ChatItem.DateTime -> DateTimeItem(item.value)
@@ -147,7 +154,7 @@ internal fun LoadingChatScreenPreview() {
             ),
             messagesState = ChatMessagesState.Loading,
         )
-    )
+    ) {}
 }
 
 @Preview
@@ -166,27 +173,32 @@ internal fun ChatScreenPreview() {
                         isOutgoing = false,
                         text = "Preview Message",
                         isGrouped = false,
+                        key = 1,
                     ),
                     ChatItem.Message(
                         isOutgoing = true,
                         text = "Preview Message",
                         isGrouped = false,
+                        key = 2,
                     ),
                     ChatItem.Message(
                         isOutgoing = true,
                         text = "Preview Message",
                         isGrouped = true,
+                        key = 3,
                     ),
                     ChatItem.Message(
                         isOutgoing = true,
                         text = "Preview Message",
                         isGrouped = false,
+                        key = 4,
                     ),
                     ChatItem.DateTime(
                         value = "Thursday 11:59",
+                        key = 5,
                     ),
                 )
             ),
         ),
-    )
+    ) {}
 }

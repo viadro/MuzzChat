@@ -10,4 +10,8 @@ import com.seweryn.chat.data.storage.model.MessageEntity
 )
 internal abstract class ChatDatabase : RoomDatabase() {
     abstract fun messageDao(): MessageDao
+
+    companion object {
+        const val DATABASE_NAME = "chat_database"
+    }
 }

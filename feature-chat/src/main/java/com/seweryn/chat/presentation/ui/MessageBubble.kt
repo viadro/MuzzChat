@@ -25,7 +25,7 @@ internal fun MessageBubble(message: ChatItem.Message) {
     Box(
         modifier = Modifier
             .padding(
-                top = if(message.isGrouped) 2.dp else 8.dp,
+                top = if (message.isGrouped) 2.dp else 8.dp,
                 start = if (message.isOutgoing) MESSAGE_BUBBLE_PADDING else 0.dp,
                 end = if (message.isOutgoing) 0.dp else MESSAGE_BUBBLE_PADDING,
             )
@@ -69,6 +69,7 @@ internal fun OutgoingMessageBubblePreview() {
         message = ChatItem.Message(
             isOutgoing = true,
             text = "Preview Message",
+            key = 1,
         ),
     )
 }
@@ -79,7 +80,8 @@ internal fun IncomingMessageBubblePreview() {
     MessageBubble(
         message = ChatItem.Message(
             isOutgoing = false,
-            text = "Preview Message"
+            text = "Preview Message",
+            key = 1,
         ),
     )
 }
@@ -93,6 +95,7 @@ internal fun GroupedMessageBubblesPreview() {
                 isOutgoing = true,
                 text = "Preview Message",
                 isGrouped = false,
+                key = 1,
             ),
         )
         MessageBubble(
@@ -100,6 +103,7 @@ internal fun GroupedMessageBubblesPreview() {
                 isOutgoing = true,
                 text = "Preview Message",
                 isGrouped = true,
+                key = 2,
             ),
         )
         MessageBubble(
@@ -107,6 +111,7 @@ internal fun GroupedMessageBubblesPreview() {
                 isOutgoing = true,
                 text = "Preview Message",
                 isGrouped = true,
+                key = 3,
             ),
         )
     }
@@ -121,6 +126,7 @@ internal fun NotGroupedMessageBubblesPreview() {
                 isOutgoing = true,
                 text = "Preview Message",
                 isGrouped = false,
+                key = 1,
             ),
         )
         MessageBubble(
@@ -128,6 +134,7 @@ internal fun NotGroupedMessageBubblesPreview() {
                 isOutgoing = true,
                 text = "Preview Message",
                 isGrouped = false,
+                key = 2,
             ),
         )
         MessageBubble(
@@ -135,6 +142,7 @@ internal fun NotGroupedMessageBubblesPreview() {
                 isOutgoing = true,
                 text = "Preview Message",
                 isGrouped = false,
+                key = 3,
             ),
         )
     }
