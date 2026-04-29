@@ -1,7 +1,6 @@
 package com.seweryn.chat.domain.model
 
-internal data class Message(
-    val id: Long,
+data class NewMessage(
     val text: String,
     val isOutgoing: Boolean,
     val timestamp: Long,
