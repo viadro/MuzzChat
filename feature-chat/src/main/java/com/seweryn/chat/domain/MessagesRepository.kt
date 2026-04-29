@@ -9,4 +9,6 @@ internal interface MessagesRepository {
     fun observeMessages(): Flow<List<Message>>
 
     suspend fun sendMessage(message: NewMessage)
+
+    suspend fun generateMessage(): String
 }

@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.map
 
 internal class MessagesRepositoryImpl(
     private val messageDao: MessageDao,
+    private val messageGenerator: MessageGenerator,
 ) : MessagesRepository {
 
     override fun observeMessages(): Flow<List<Message>> =
@@ -21,4 +22,6 @@ internal class MessagesRepositoryImpl(
     override suspend fun sendMessage(message: NewMessage) {
         messageDao.insert(message.toEntity())
     }
+
+    override suspend fun generateMessage() = messageGenerator.generate()
 }

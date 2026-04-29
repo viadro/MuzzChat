@@ -1,6 +1,7 @@
 package com.seweryn.chat.data.di
 
 import androidx.room.Room
+import com.seweryn.chat.data.MessageGenerator
 import com.seweryn.chat.data.MessagesRepositoryImpl
 import com.seweryn.chat.data.UserRepositoryImpl
 import com.seweryn.chat.data.storage.ChatDatabase
@@ -22,4 +23,5 @@ internal val dataModule = module {
         ).build()
     }
     single { get<ChatDatabase>().messageDao() }
+    singleOf(::MessageGenerator)
 }

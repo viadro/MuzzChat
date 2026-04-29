@@ -27,6 +27,10 @@ internal class ChatViewModel(
 
     init {
         viewModelScope.launch {
+            sendMessageUseCase.init()
+        }
+
+        viewModelScope.launch {
             messagesRepository.observeMessages().collect { messages ->
                 _state.update { it.onMessagesLoaded(messages, dateFormatter) }
             }
