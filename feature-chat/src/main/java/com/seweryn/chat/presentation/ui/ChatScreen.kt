@@ -65,7 +65,7 @@ private fun ChatScreenContent(state: ChatState) {
                 items = state.messagesState.items
             )
 
-            is ChatMessagesState.Loading -> ChatLoading()
+            is ChatMessagesState.Loading -> ChatLoading(Modifier.padding(innerPadding))
         }
     }
 }
@@ -125,9 +125,11 @@ private fun ChatMessagesContent(
 }
 
 @Composable
-private fun ChatLoading() {
+private fun ChatLoading(modifier: Modifier) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .then(modifier),
         contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator()
