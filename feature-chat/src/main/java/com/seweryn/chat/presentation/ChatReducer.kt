@@ -45,7 +45,7 @@ internal object ChatReducer {
         }
 
         return copy(
-            messagesState = ChatMessagesState.Ready(items)
+            messagesState = ChatMessagesState.Ready(items.asReversed())
         )
     }
 
