@@ -4,9 +4,10 @@ import com.seweryn.chat.domain.MessagesRepository
 import com.seweryn.chat.domain.model.NewMessage
 import com.seweryn.chat.domain.util.TimeProvider
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.map
 
 internal class SendMessageUseCase(
@@ -14,13 +15,14 @@ internal class SendMessageUseCase(
     private val timeProvider: TimeProvider,
 ) {
 
-    private val trigger = MutableSharedFlow<Unit>()
+    private val trigger = MutableSharedFlow<String>()
 
     @OptIn(FlowPreview::class)
     suspend fun init() {
         trigger
-            .debounce(AUTO_REPLY_DELAY)
+            .conflate()
             .map {
+                delay(AUTO_REPLY_DELAY)
                 messagesRepository.sendMessage(
                     NewMessage(
                         isOutgoing = false,
@@ -39,10 +41,10 @@ internal class SendMessageUseCase(
                 timestamp = timeProvider.provideCurrentTimeInMillis()
             )
         )
-        trigger.emit(Unit)
+        trigger.emit(text)
     }
 
     private companion object {
-        const val AUTO_REPLY_DELAY = 5_000L
+        const val AUTO_REPLY_DELAY = 30_000L
     }
 }

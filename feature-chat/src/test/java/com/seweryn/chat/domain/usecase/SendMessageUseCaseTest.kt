@@ -74,7 +74,7 @@ class SendMessageUseCaseTest {
         advanceTimeBy(1L)
 
         tested(MOCK_MESSAGE_TEXT)
-        advanceTimeBy(2_001L)
+        advanceTimeBy(30_001L)
 
         coVerify {
             messagesRepositoryMock.sendMessage(
@@ -94,7 +94,7 @@ class SendMessageUseCaseTest {
         advanceTimeBy(1L)
 
         tested(MOCK_MESSAGE_TEXT)
-        advanceTimeBy(2_001L)
+        advanceTimeBy(30_001L)
 
         coVerify {
             messagesRepositoryMock.sendMessage(
@@ -115,7 +115,7 @@ class SendMessageUseCaseTest {
         advanceTimeBy(1L)
 
         tested(MOCK_MESSAGE_TEXT)
-        advanceTimeBy(2_001L)
+        advanceTimeBy(30_001L)
 
         coVerify {
             messagesRepositoryMock.sendMessage(
@@ -130,7 +130,7 @@ class SendMessageUseCaseTest {
         val job = launch { tested.init() }
 
         tested(MOCK_MESSAGE_TEXT)
-        advanceTimeBy(1_999L)
+        advanceTimeBy(29_999L)
 
         coVerify(exactly = 0) {
             messagesRepositoryMock.sendMessage(
@@ -142,15 +142,15 @@ class SendMessageUseCaseTest {
     }
 
     @Test
-    fun `init - debounce sends single reply for multiple messages`() = runTest {
+    fun `init - conflate sends single reply for multiple messages`() = runTest {
         val job = launch { tested.init() }
 
         tested(MOCK_MESSAGE_TEXT)
-        advanceTimeBy(500L)
+        advanceTimeBy(10_000L)
         tested("How are you?")
-        advanceTimeBy(500L)
+        advanceTimeBy(10_000L)
         tested("What's up?")
-        advanceTimeBy(2_001L)
+        advanceTimeBy(30_001L)
 
         coVerify(exactly = 1) {
             messagesRepositoryMock.sendMessage(
@@ -167,10 +167,10 @@ class SendMessageUseCaseTest {
         advanceTimeBy(1L)
 
         tested(MOCK_MESSAGE_TEXT)
-        advanceTimeBy(2_001L)
+        advanceTimeBy(30_001L)
 
         tested("How are you?")
-        advanceTimeBy(2_001L)
+        advanceTimeBy(30_001L)
 
         coVerify(exactly = 2) {
             messagesRepositoryMock.sendMessage(
